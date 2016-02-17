@@ -13,7 +13,7 @@ $VERSION = "1.0";
         name            => "Freifunk Bot",
         description     => "Ein Freifunk-IRC-Bot, der interessante Fakten des Freifunkes in den IRC pasten kann.",
         version                 => "0.0.2",
-        license         => "CC-BY-SA"
+        license         => "GPL"
 );
         # wichtige Parameter:
 our $channelName = "ffbsee"; #Operate in this channel !1ELF
