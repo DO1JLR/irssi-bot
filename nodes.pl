@@ -22,7 +22,9 @@ our $url = "http://vpn2.ffbsee.de/nodes.json"; #Pfad zur nodes.json
 
 Irssi::signal_add 'message public', 'sig_message_public';
 our @node_name;   # Globaler Array für Node-Names
-our $anzahl = 0; # How many nodes exist
+our $anzahl;      # How many nodes exist
+our $clients;     # Wie viele Clients verbunden sind...
+
 sub sig_message_public {
     my ($server, $msg, $nick, $nick_addr, $target) = @_;
     if ($target =~ m/#(?:$channelName|$testChannel)/) { # only operate in these channels
@@ -32,7 +34,8 @@ sub sig_message_public {
                         $server->command("msg $nick !help - ruft diese Hilfe auf!");
                         $server->command("msg $nick !node - Sagt, wie viele Nodes gerade online sind!");
                         $server->command("msg $nick !name - Sagt die namen, der Nodes, die gerade online sind!");
-                }
+                	$server->command("msg $nick !top  - Zeigt die Top 5 Nodes mit den meisten Clients");
+		}
                 if ($msg =~ m/!node/i){ #Reagiert auf "!node"
                        nodes(); #Ruft node() auf um eine aktuelle Zahl der nodes zu bekommen
                        $server->command("msg $target Es sind aktuell $anzahl Nodes online!");
@@ -44,10 +47,15 @@ sub sig_message_public {
                         $server->command("msg $target @node_name");
                         $server->command("script load nodes.pl");
                 }
+		if ($msg =~ m/!top/i) { #Reagiert auf "!top"
+			nodes();
+			#Hier könnte ausgewertet werden, wieviele Clients bei welchen Knoten sind oder so...
+		}
         }
 }
 
 
+#Hier werden die Informationen aus der nodes.json geholt...
 sub nodes{
        my $name;
        my $check = 0; # If the value is one, you found all nodes.
