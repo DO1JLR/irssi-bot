@@ -1,3 +1,5 @@
 # irssi-bot
 
-Entwickelt für #ffbsee
+
+Ein in Perl geschrieben Bot für den IRC.
+Geeignet als script für irrsi.
