@@ -12,8 +12,8 @@ $VERSION = "1.0";
         contact         => 'l3d@see-base.de',
         name            => "Freifunk Bot",
         description     => "Ein Freifunk-IRC-Bot, der interessante Fakten des Freifunkes in den IRC pasten kann.",
-        version         => "0.0.3",
-		status			=> "pre-alpha",
+        version         => "0.0.4",
+		status			=> "alpha",
         license         => "GPL"
 );
 # important Variables:
