@@ -19,7 +19,7 @@ $VERSION = "1.0";
 # important Variables:
 our $channelName = "ffbsee"; #Operate in this channel !1ELF
 our $secoundChannel = "see-base-talk"; #A 2. channel for testing...
-our $url = "https://vpn1.ffbsee.de/nodes.json"; #Pfad zur nodes.json
+our $url = "http://vpn3.ffbsee.de/nodes.json"; #Pfad zur nodes.json
 
 Irssi::signal_add 'message public', 'sig_message_public';
 our @node_name;   # Global Array for Node-Names
