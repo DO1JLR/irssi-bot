@@ -19,12 +19,15 @@ $VERSION = "1.0";
 # important Variables:
 our $channelName = "ffbsee"; #Operate in this channel !1ELF
 our $secoundChannel = "see-base-talk"; #A 2. channel for testing...
-our $url = "http://vpn3.ffbsee.de/nodes.json"; #Pfad zur nodes.json
+our $url = "http://vpn3.ffbsee.de/nodes.json"; #Link zur nodes.json
+our $path = "/var/www/modes.json"; #Pfad zur nodes.json
+
 
 Irssi::signal_add 'message public', 'sig_message_public';
 our @node_name;   # Global Array for Node-Names
 our $anzahl;      # How many nodes exist
 our $clients;     # How many Clients are connected...
+
 
 sub sig_message_public {
     my ($server, $msg, $nick, $nick_addr, $target) = @_;
@@ -35,7 +38,7 @@ sub sig_message_public {
                         $server->command("msg $nick !help - ruft diese Hilfe auf!");
                         $server->command("msg $nick !node - Sagt, wie viele Nodes gerade online sind!");
                         $server->command("msg $nick !name - Sagt die namen, der Nodes, die gerade online sind!");
-						$server->command("msg $nick !top  - Zeigt die Top 5 Nodes mit den meisten Clients");
+			$server->command("msg $nick !top  - Zeigt die Top 5 Nodes mit den meisten Clients");
 		}
                 if ($msg =~ m/!node/i){ #Reagiert auf "!node"
                        nodes(); #Ruft node() auf um eine aktuelle Zahl der nodes zu bekommen
@@ -59,7 +62,17 @@ sub sig_message_public {
 #Hier werden die Informationen aus der nodes.json geholt...
 sub nodes{
 		my $name;
-		my $json_text = get( $url );   # Download the nodes.json
+my $json_text;
+#		my $json_text = get( $url );   # Download the nodes.json
+
+open(DATEI, "/var/www/nodes.json") || die "Datei wurde nicht gefunden\n";
+while((my $zeichen = getc(DATEI)) ne "") {
+#  print $zeichen;
+$json_text .= $zeichen;
+}
+close(DATEI);
+
+
 		my $json        = JSON->new->utf8; #force UTF8 Encoding
 		my $perl_scalar = $json->decode( $json_text ); #decode nodes.json
 		$anzahl = 0; #Resette Anzahl auf 0
@@ -85,4 +98,5 @@ sub nodes{
 				}
 		}
 		$anzahl = $anzahl - $anzanhl_korrektur;
+		@node_name = sort @node_name;
 }
