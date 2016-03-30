@@ -19,7 +19,7 @@ $VERSION = "1.0";
 # important Variables:
 our $channelName = "ffbsee"; #Operate in this channel !1ELF
 our $secoundChannel = "see-base-talk"; #A 2. channel for testing...
-our $url = "https://vpn3.ffbsee.de/nodes.json"; #Pfad zur nodes.json
+our $url = "https://vpn1.ffbsee.de/nodes.json"; #Pfad zur nodes.json
 
 Irssi::signal_add 'message public', 'sig_message_public';
 our @node_name;   # Global Array for Node-Names
@@ -48,10 +48,10 @@ sub sig_message_public {
                         $server->command("msg $target @node_name");
                         $server->command("script load nodes.pl");
                 }
-		if ($msg =~ m/!top/i) { #Reagiert auf "!top"
-			nodes();
-			#Hier könnte ausgewertet werden, wieviele Clients bei welchen Knoten sind oder so...
-		}
+				if ($msg =~ m/!top/i) { #Reagiert auf "!top"
+						nodes();
+						#Hier könnte ausgewertet werden, wieviele Clients bei welchen Knoten sind oder so...
+				}
         }
 }
 
