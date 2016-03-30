@@ -2,4 +2,4 @@
 
 
 Ein in Perl geschrieben Bot für den IRC.
-Geeignet als script für irrsi.
+Demnaechst Geeignet als script für IRSSI.
