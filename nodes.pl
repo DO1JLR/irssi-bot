@@ -76,16 +76,19 @@ close(DATEI);
 		my $json        = JSON->new->utf8; #force UTF8 Encoding
 		my $perl_scalar = $json->decode( $json_text ); #decode nodes.json
 		$anzahl = 0; #Resette Anzahl auf 0
+		my $anzanhl_korrektur = 0;
 		#		print Dumper $perl_scalar;
 		my $json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"name"};
-		my $json_list_test = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
+		my $json_list_test = $perl_scalar->{"nodes"}->[$anzahl]->{"i"};
 		while (defined $json_list_test){
                 $json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"name"} ; # Suche nach "name" in der node.json
 				if ( not defined $json_list){ #Falls der $name nicht gesetzt wurde!
 						$json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
 				}
-				my $json_list_test = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
 				$anzahl = $anzahl + 1;
+				$json_list_test = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
+				push(@node_name, "$json_list, "); #Füge die Node-Names dem Array zu.
+				
 		}
 		@node_name = sort @node_name;
 }
