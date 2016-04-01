@@ -61,34 +61,36 @@ sub sig_message_public {
 
 #Hier werden die Informationen aus der nodes.json geholt...
 sub nodes{
-		my $name;
-my $json_text;
-#		my $json_text = get( $url );   # Download the nodes.json
+	my $name;
+	my $json_text;
+#	my $json_text = get( $url );   # Download the nodes.json
+	open(DATEI, "/var/www/nodes.json") or die "Datei wurde nicht gefunden\n";
+	my $daten;
+   	while(<DATEI>){
+	     	$daten = $daten.$_;
+   	}
+	close (DATEI);
+#	print $daten;
+	$json_text = $daten;
+		
+#	print $json_text;
 
-open(DATEI, "/var/www/nodes.json") || die "Datei wurde nicht gefunden\n";
-while((my $zeichen = getc(DATEI)) ne "") {
-#  print $zeichen;
-$json_text .= $zeichen;
-}
-close(DATEI);
-
-
-		my $json        = JSON->new->utf8; #force UTF8 Encoding
-		my $perl_scalar = $json->decode( $json_text ); #decode nodes.json
-		$anzahl = 0; #Resette Anzahl auf 0
-		my $anzanhl_korrektur = 0;
-		#		print Dumper $perl_scalar;
-		my $json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"name"};
-		my $json_list_test = $perl_scalar->{"nodes"}->[$anzahl]->{"i"};
-		while (defined $json_list_test){
-                $json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"name"} ; # Suche nach "name" in der node.json
-				if ( not defined $json_list){ #Falls der $name nicht gesetzt wurde!
-						$json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
-				}
-				$anzahl = $anzahl + 1;
-				$json_list_test = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
-				push(@node_name, "$json_list, "); #Füge die Node-Names dem Array zu.
-				
+	my $json        = JSON->new->utf8; #force UTF8 Encoding
+	my $perl_scalar = $json->decode( $json_text ); #decode nodes.json
+	$anzahl = 0; #Resette Anzahl auf 0
+#	print Dumper $perl_scalar;
+	my $json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"name"};
+	my $json_list_test = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
+	while (defined $json_list_test){
+	        $json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"name"} ; # Suche nach "name" in der node.json
+		if ( not defined $json_list){ #Falls der $name nicht gesetzt wurde!
+			$json_list = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
 		}
-		@node_name = sort @node_name;
+		$anzahl = $anzahl + 1;
+		$json_list_test = $perl_scalar->{"nodes"}->[$anzahl]->{"id"};
+		push(@node_name, "$json_list, "); #Füge die Node-Names dem Array zu.
+				
+	}
+	@node_name = sort @node_name;
+	print @node_name;
 }
